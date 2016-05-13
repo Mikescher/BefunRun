@@ -47,8 +47,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Runner\BefungeRunner0.cs" />
+    <Compile Include="Runner\BefungeRunner1.cs" />
+    <Compile Include="Runner\BefungeRunner3.cs" />
+    <Compile Include="Runner\BefungeRunner2.cs" />
+    <Compile Include="CommandLineArguments.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Runner\BFRunException.cs" />
+    <Compile Include="Runner\IBefungeRunner.cs" />
+    <Compile Include="Vector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
