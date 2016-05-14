@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Runner\BefungeRunnerInfo.cs" />
     <Compile Include="Runner\BefungeRunner0.cs" />
     <Compile Include="Runner\BefungeRunner1.cs" />
     <Compile Include="Runner\BefungeRunner3.cs" />

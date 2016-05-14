@@ -40,12 +40,13 @@ namespace BefunRun
 
 			int errlevel = cmda.GetIntDefaultRange("errorlevel", 0, 0, 4);
 			int limit = cmda.GetIntDefault("limit", -1);
+			bool inforun = cmda.IsSet("info");
 
 			try
 			{
 				string befcode = File.ReadAllText(file);
 
-				GetRunner(befcode, errlevel, limit).Run();
+				GetRunner(befcode, errlevel, limit, inforun).Run();
 
 				return 0;
 			}
@@ -69,8 +70,10 @@ namespace BefunRun
 			}
 		}
 
-		private IBefungeRunner GetRunner(string code, int errlevel, int limit)
+		private IBefungeRunner GetRunner(string code, int errlevel, int limit, bool inforun)
 		{
+			if (inforun) return new BefungeRunnerInfo(code, limit);
+
 			switch (errlevel)
 			{
 				case 0: return new BefungeRunner0(code, limit);
@@ -103,6 +106,8 @@ namespace BefunRun
 			Console.WriteLine("                     - executing a previously modified cell");
 			Console.WriteLine();
 			Console.WriteLine("limit             : Abort after n steps");
+			Console.WriteLine();
+			Console.WriteLine("info              : Don't show output. Show program informations");
 		}
 	}
 }
