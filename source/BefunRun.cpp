@@ -78,6 +78,14 @@ int execute(int argc, char* argv[])
 	try 
 	{
 		std::ifstream file(fileInput);
+
+		if (!file.is_open())
+		{
+			std::cerr << "Cannot open file: " << fileInput << std::endl;
+
+			return RESULT_EC_FILEREADEXCEPTION;
+		}
+
 		std::string str;
 		while (std::getline(file, str))
 		{

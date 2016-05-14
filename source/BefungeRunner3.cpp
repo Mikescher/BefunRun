@@ -4,8 +4,10 @@
 #include "HelperMethods.h"
 
 
-BefungeRunner3::BefungeRunner3(int w, int h) : stack(INITIAL_STACK_SIZE)
+BefungeRunner3::BefungeRunner3(int w, int h)
 {
+	stack.reserve(INITIAL_STACK_SIZE);
+
 	width = w;
 	height = h;
 
@@ -58,8 +60,8 @@ void BefungeRunner3::Run()
 
 void BefungeRunner3::Init(std::vector<std::string> lines)
 {
-	for (int y = 0; y < lines.size(); y++)
-		for (int x = 0; x < lines[y].length(); x++)
+	for (size_t y = 0; y < lines.size(); y++)
+		for (size_t x = 0; x < lines[y].length(); x++)
 		{
 			GRID(x, y) = lines[y][x];
 		}
@@ -197,11 +199,11 @@ void BefungeRunner3::ExecuteCommand(int_grid cmd)
 		Push(Pop() % t1);
 		break;
 	case '!':
-		Push(!Pop_b());
+		Push_b(!Pop_b());
 		break;
 	case '`':
 		t1 = Pop();
-		Push(Pop() > t1);
+		Push_b(Pop() > t1);
 		break;
 	case '>':
 		deltaX = 1;
