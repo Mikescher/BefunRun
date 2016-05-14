@@ -3,10 +3,29 @@
 
 #include "stdafx.h"
 #include "HelperMethods.h"
+#include "IBefungeRunner.h"
+#include "BefungeRunner0.h"
+#include "BFRunException.h"
 
 void showHelp();
+int execute(int argc, char* argv[]);
+
 
 int main(int argc, char* argv[])
+{
+	try
+	{
+		return execute(argc, argv);
+	}
+	catch (...)
+	{
+		std::cerr << "Unknown internal exception in file " << __FILE__ << " at line " << __LINE__ << std::endl;
+
+		return RESULT_EC_UNKNOWNEXCEPTION;
+	}
+}
+
+int execute(int argc, char* argv[])
 {
 	if (argc <= 1) {
 		showHelp();
@@ -33,13 +52,19 @@ int main(int argc, char* argv[])
 		return RESULT_EC_INVALIDERRORLEVEL;
 	}
 
+	int width = 0;
+	int height = 0;
+	std::vector<std::string> lines;
+
 	try 
 	{
 		std::ifstream file(fileInput);
 		std::string str;
 		while (std::getline(file, str))
 		{
-			std::cout << str << std::endl;
+			lines.push_back(str);
+			width = std::max(width, (int)str.length());
+			height++;
 		}
 	}
 	catch (const std::exception& ex)
@@ -51,10 +76,74 @@ int main(int argc, char* argv[])
 	}
 	catch (...)
 	{
-		std::cerr << "Unknown internal exception in file " << __FILE__ << "at line " << __LINE__ << std::endl;
+		std::cerr << "Unknown internal exception in file " << __FILE__ << " at line " << __LINE__ << std::endl;
 
 		return RESULT_EC_UNKNOWNEXCEPTION;
 	}
+
+	if (width <= 0 || height <= 0)
+	{
+		std::cerr << "The program rogram has an size of zero" << std::endl;
+
+		return RESULT_EC_INVALIDSIZE;
+	}
+
+	IBefungeRunner *runner;
+
+	if (limit)
+	{
+		runner = new BefungeRunner0(width, height);
+	}
+	else if (errorlevel == 0)
+	{
+		runner = new BefungeRunner0(width, height);
+	}
+	else if (errorlevel == 1)
+	{
+		runner = new BefungeRunner0(width, height);
+	}
+	else if (errorlevel == 2)
+	{
+		runner = new BefungeRunner0(width, height);
+	}
+	else if (errorlevel == 3)
+	{
+		runner = new BefungeRunner0(width, height);
+	}
+	else
+	{
+		std::cerr << "Cannot create a befunge runner for the supplied parameters" << std::endl;
+		return RESULT_EC_INVALIDRUNNER;
+	}
+
+	runner->Init(lines);
+	runner->SetLimit(limit);
+
+	try
+	{
+		runner->Run();
+	}
+	catch (const BFRunException& ex)
+	{
+		std::cerr << ex.what() << std::endl;
+
+		return ex.exitCode;
+	}
+	catch (const std::exception& ex)
+	{
+		std::cerr << "Internal exception while running program:" << std::endl;
+		std::cerr << ex.what() << std::endl;
+
+		return RESULT_EC_UNKNOWNEXCEPTION;
+	}
+	catch (...)
+	{
+		std::cerr << "Unknown internal exception in file " << __FILE__ << " at line " << __LINE__ << std::endl;
+
+		return RESULT_EC_UNKNOWNEXCEPTION;
+	}
+
+	delete runner;
 
 	std::getchar();
 	return RESULT_EC_SUCCESS;

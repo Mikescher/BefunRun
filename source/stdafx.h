@@ -18,3 +18,6 @@
 #include <fstream>
 #include <iostream>
 #include <cstdio>
+#include <list>
+#include <algorithm>
+#include <vector>
