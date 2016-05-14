@@ -1,4 +1,3 @@
-
 #include "stdafx.h"
 #include "HelperMethods.h"
 
@@ -56,7 +55,7 @@ bool getStringArg(std::string &target, const std::string argument, const std::st
 
 		return true;
 	}
-	else if (hasBeginning(argument, "-" + argname + "file="))
+	else if (hasBeginning(argument, "-" + argname + "="))
 	{
 		target = argument.substr(1 + argname.length() + 1);
 
@@ -65,7 +64,7 @@ bool getStringArg(std::string &target, const std::string argument, const std::st
 
 		return true;
 	}
-	else if (hasBeginning(argument, "--" + argname + "file="))
+	else if (hasBeginning(argument, "--" + argname + "="))
 	{
 		target = argument.substr(2 + argname.length() + 1);
 
@@ -89,7 +88,7 @@ bool getIntArg(int &target, const std::string argument, const std::string argnam
 			return true;
 		}
 	}
-	else if (hasBeginning(argument, "-" + argname + "file="))
+	else if (hasBeginning(argument, "-" + argname + "="))
 	{
 		int argInt;
 		if (str2int(argInt, argument.substr(1 + argname.length() + 1)))
@@ -98,7 +97,7 @@ bool getIntArg(int &target, const std::string argument, const std::string argnam
 			return true;
 		}
 	}
-	else if (hasBeginning(argument, "--" + argname + "file="))
+	else if (hasBeginning(argument, "--" + argname + "="))
 	{
 		int argInt;
 		if (str2int(argInt, argument.substr(2 + argname.length() + 1)))
@@ -113,17 +112,17 @@ bool getIntArg(int &target, const std::string argument, const std::string argnam
 
 bool getBoolArg(bool &target, const std::string argument, const std::string argname)
 {
-	if (hasBeginning(argument, argname + "="))
+	if (hasBeginning(argument, argname))
 	{
 		target = true;
 		return true;
 	}
-	else if (hasBeginning(argument, "-" + argname + "file="))
+	else if (hasBeginning(argument, "-" + argname))
 	{
 		target = true;
 		return true;
 	}
-	else if (hasBeginning(argument, "--" + argname + "file="))
+	else if (hasBeginning(argument, "--" + argname))
 	{
 		target = true;
 		return true;

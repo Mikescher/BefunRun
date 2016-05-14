@@ -10,6 +10,7 @@
 #include "BefungeRunner1.h"
 #include "BefungeRunner2.h"
 #include "BefungeRunner3.h"
+#include "BefungeRunnerInfo.h"
 
 void showHelp();
 int execute(int argc, char* argv[]);
@@ -20,6 +21,13 @@ int main(int argc, char* argv[])
 	try
 	{
 		return execute(argc, argv);
+	}
+	catch (const std::exception& ex)
+	{
+		std::cerr << "internal exception in program: " << std::endl;
+		std::cerr << ex.what() << std::endl;
+
+		return RESULT_EC_UNKNOWNEXCEPTION;
 	}
 	catch (...)
 	{
@@ -33,13 +41,14 @@ int execute(int argc, char* argv[])
 {
 	if (argc <= 1) {
 		showHelp();
-		return 0;
+		return RESULT_EC_SUCCESS;
 	}
 
 	std::string fileInput = argv[1];
 	int errorlevel = 0;
 	int limit = -1;
 	bool info = false;
+	bool help = false;
 	
 	for (int i = 1; i < argc; i++)
 	{
@@ -47,6 +56,12 @@ int execute(int argc, char* argv[])
 		getIntArg(errorlevel, argv[i], "errorlevel");
 		getIntArg(limit, argv[i], "limit");
 		getBoolArg(info, argv[i], "info");
+		getBoolArg(help, argv[i], "help");
+	}
+
+	if (help) {
+		showHelp();
+		return RESULT_EC_SUCCESS;
 	}
 
 	if (errorlevel < 0 || errorlevel > 3)
@@ -87,7 +102,7 @@ int execute(int argc, char* argv[])
 
 	if (width <= 0 || height <= 0)
 	{
-		std::cerr << "The program rogram has an size of zero" << std::endl;
+		std::cerr << "The program has an size of zero" << std::endl;
 
 		return RESULT_EC_INVALIDSIZE;
 	}
@@ -96,7 +111,7 @@ int execute(int argc, char* argv[])
 
 	if (limit)
 	{
-		runner = new BefungeRunner0(width, height);
+		runner = new BefungeRunnerInfo(width, height);
 	}
 	else if (errorlevel == 0)
 	{
@@ -149,7 +164,6 @@ int execute(int argc, char* argv[])
 
 	delete runner;
 
-	std::getchar();
 	return RESULT_EC_SUCCESS;
 }
 
