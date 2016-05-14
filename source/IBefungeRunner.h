@@ -3,6 +3,7 @@
 #define INITIAL_STACK_SIZE 1024
 
 #define GRID(x, y) raster[y*width+x]
+#define DCACHE(x, y) dirtyCache[y*width+x]
 
 #define int_grid int64_t
 

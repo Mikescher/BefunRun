@@ -36,6 +36,15 @@
     <ClInclude Include="source\BFRunException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\BefungeRunner1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BefungeRunner2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BefungeRunner3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\BefunRun.cpp">
@@ -48,6 +57,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\BefungeRunner0.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BefungeRunner1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BefungeRunner2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BefungeRunner3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

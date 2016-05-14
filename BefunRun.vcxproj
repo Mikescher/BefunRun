@@ -145,6 +145,9 @@
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="source\BefungeRunner0.h" />
+    <ClInclude Include="source\BefungeRunner1.h" />
+    <ClInclude Include="source\BefungeRunner2.h" />
+    <ClInclude Include="source\BefungeRunner3.h" />
     <ClInclude Include="source\BFRunException.h" />
     <ClInclude Include="source\HelperMethods.h" />
     <ClInclude Include="source\IBefungeRunner.h" />
@@ -153,6 +156,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\BefungeRunner0.cpp" />
+    <ClCompile Include="source\BefungeRunner1.cpp" />
+    <ClCompile Include="source\BefungeRunner2.cpp" />
+    <ClCompile Include="source\BefungeRunner3.cpp" />
     <ClCompile Include="source\BefunRun.cpp" />
     <ClCompile Include="source\HelperMethods.cpp" />
     <ClCompile Include="source\stdafx.cpp" />

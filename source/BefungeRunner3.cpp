@@ -1,20 +1,22 @@
 #include "stdafx.h"
-#include "BefungeRunner0.h"
+#include "BefungeRunner3.h"
 #include "BFRunException.h"
 #include "HelperMethods.h"
 
 
-BefungeRunner0::BefungeRunner0(int w, int h) : stack(INITIAL_STACK_SIZE)
+BefungeRunner3::BefungeRunner3(int w, int h) : stack(INITIAL_STACK_SIZE)
 {
 	width = w;
 	height = h;
 
 	raster = new int_grid[width * height];
+	dirtyCache = new bool[width * height];
 
 	for (int x = 0; x < width; x++)
 		for (int y = 0; y < height; y++)
 		{
 			GRID(x, y) = ' ';
+			DCACHE(x, y) = false;
 		}
 
 	pcX = 0;
@@ -27,12 +29,13 @@ BefungeRunner0::BefungeRunner0(int w, int h) : stack(INITIAL_STACK_SIZE)
 }
 
 
-BefungeRunner0::~BefungeRunner0()
+BefungeRunner3::~BefungeRunner3()
 {
 	delete[] raster;
+	delete[] dirtyCache;
 }
 
-void BefungeRunner0::Run()
+void BefungeRunner3::Run()
 {
 	if (stepLimit < 0)
 	{
@@ -53,7 +56,7 @@ void BefungeRunner0::Run()
 	}
 }
 
-void BefungeRunner0::Init(std::vector<std::string> lines)
+void BefungeRunner3::Init(std::vector<std::string> lines)
 {
 	for (int y = 0; y < lines.size(); y++)
 		for (int x = 0; x < lines[y].length(); x++)
@@ -62,13 +65,16 @@ void BefungeRunner0::Init(std::vector<std::string> lines)
 		}
 }
 
-void BefungeRunner0::SetLimit(int lim)
+void BefungeRunner3::SetLimit(int lim)
 {
 	stepLimit = lim;
 }
 
-void BefungeRunner0::RunSingle()
+void BefungeRunner3::RunSingle()
 {
+	if (DCACHE(pcX, pcY))
+		throw BFRunException("Trying to execute the modified cell", pcX, pcY, RESULT_EC_SELFMODIFICATION);
+
 	ExecuteCommand(GRID(pcX, pcY));
 
 	Move();
@@ -76,60 +82,58 @@ void BefungeRunner0::RunSingle()
 	stepCounter++;
 }
 
-void BefungeRunner0::Set(int_grid x, int_grid y, int_grid chr)
+void BefungeRunner3::Set(int_grid x, int_grid y, int_grid chr)
 {
 	if (x < 0 || y < 0 || x >= width || y >= height)
-		return;
+		throw BFRunException("Modification Out Of Raster", pcX, pcY, RESULT_EC_INVALIDGRIDACC);
+
+	DCACHE(pcX, pcY) = true;
 
 	GRID(x, y) = chr;
 }
 
-int_grid BefungeRunner0::Get(int_grid x, int_grid y)
+int_grid BefungeRunner3::Get(int_grid x, int_grid y)
 {
 	if (x < 0 || y < 0 || x >= width || y >= height)
-		return 0;
+		throw BFRunException("Modification Out Of Raster", pcX, pcY, RESULT_EC_INVALIDGRIDACC);
 
 	return GRID(x, y);
 }
 
-void BefungeRunner0::Push(int_grid i)
+void BefungeRunner3::Push(int_grid i)
 {
 	stack.push_back(i);
 }
 
-int_grid BefungeRunner0::Pop()
+int_grid BefungeRunner3::Pop()
 {
 	if (stack.size() == 0)
-	{
-		return 0;
-	}
+		throw BFRunException("Popped an empty stack", pcX, pcY, RESULT_EC_INVALIDSTACKACC);
 
 	int_grid v = stack.back();
 	stack.pop_back();
 	return v;
 }
 
-int_grid BefungeRunner0::Peek()
+int_grid BefungeRunner3::Peek()
 {
 	if (stack.size() == 0)
-	{
-		return 0;
-	}
+		throw BFRunException("Popped an empty stack", pcX, pcY, RESULT_EC_INVALIDSTACKACC);
 
 	return stack.back();
 }
 
-bool BefungeRunner0::Pop_b()
+bool BefungeRunner3::Pop_b()
 {
 	return Pop() != 0;
 }
 
-void BefungeRunner0::Push_b(bool b)
+void BefungeRunner3::Push_b(bool b)
 {
 	Push(b ? 1 : 0);
 }
 
-int_grid BefungeRunner0::ReadIntFromStdIn()
+int_grid BefungeRunner3::ReadIntFromStdIn()
 {
 	std::string line;
 
@@ -143,12 +147,12 @@ int_grid BefungeRunner0::ReadIntFromStdIn()
 	}
 }
 
-int_grid BefungeRunner0::ReadCharFromStdIn()
+int_grid BefungeRunner3::ReadCharFromStdIn()
 {
 	return getchar();
 }
 
-void BefungeRunner0::ExecuteCommand(int_grid cmd)
+void BefungeRunner3::ExecuteCommand(int_grid cmd)
 {
 	if (stringmode)
 	{
@@ -303,17 +307,16 @@ void BefungeRunner0::ExecuteCommand(int_grid cmd)
 	case '9':
 		Push(cmd - '0');
 		break;
+	default:
+		throw BFRunException("Unknown Command: #" + std::to_string(cmd), pcX, pcY, RESULT_EC_INVALIDCOMMAND);
 	}
 }
 
-void BefungeRunner0::Move()
+void BefungeRunner3::Move()
 {
 	pcX += deltaX;
 	pcY += deltaY;
 
-	if (pcX < 0) pcX += width;
-	if (pcY < 0) pcY += height;
-
-	if (pcX >= width) pcX -= width;
-	if (pcY >= height) pcY -= height;
+	if (pcX < 0 || pcY < 0 || pcX >= width || pcY >= height)
+		throw BFRunException("Moved Out Of Raster", pcX, pcY, RESULT_EC_PCWRAPPING);
 }

@@ -4,8 +4,12 @@
 #include "stdafx.h"
 #include "HelperMethods.h"
 #include "IBefungeRunner.h"
-#include "BefungeRunner0.h"
 #include "BFRunException.h"
+
+#include "BefungeRunner0.h"
+#include "BefungeRunner1.h"
+#include "BefungeRunner2.h"
+#include "BefungeRunner3.h"
 
 void showHelp();
 int execute(int argc, char* argv[]);
@@ -100,15 +104,15 @@ int execute(int argc, char* argv[])
 	}
 	else if (errorlevel == 1)
 	{
-		runner = new BefungeRunner0(width, height);
+		runner = new BefungeRunner1(width, height);
 	}
 	else if (errorlevel == 2)
 	{
-		runner = new BefungeRunner0(width, height);
+		runner = new BefungeRunner2(width, height);
 	}
 	else if (errorlevel == 3)
 	{
-		runner = new BefungeRunner0(width, height);
+		runner = new BefungeRunner3(width, height);
 	}
 	else
 	{

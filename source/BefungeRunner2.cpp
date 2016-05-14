@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "BefungeRunner0.h"
+#include "BefungeRunner2.h"
 #include "BFRunException.h"
 #include "HelperMethods.h"
 
 
-BefungeRunner0::BefungeRunner0(int w, int h) : stack(INITIAL_STACK_SIZE)
+BefungeRunner2::BefungeRunner2(int w, int h) : stack(INITIAL_STACK_SIZE)
 {
 	width = w;
 	height = h;
@@ -27,12 +27,12 @@ BefungeRunner0::BefungeRunner0(int w, int h) : stack(INITIAL_STACK_SIZE)
 }
 
 
-BefungeRunner0::~BefungeRunner0()
+BefungeRunner2::~BefungeRunner2()
 {
 	delete[] raster;
 }
 
-void BefungeRunner0::Run()
+void BefungeRunner2::Run()
 {
 	if (stepLimit < 0)
 	{
@@ -53,7 +53,7 @@ void BefungeRunner0::Run()
 	}
 }
 
-void BefungeRunner0::Init(std::vector<std::string> lines)
+void BefungeRunner2::Init(std::vector<std::string> lines)
 {
 	for (int y = 0; y < lines.size(); y++)
 		for (int x = 0; x < lines[y].length(); x++)
@@ -62,12 +62,12 @@ void BefungeRunner0::Init(std::vector<std::string> lines)
 		}
 }
 
-void BefungeRunner0::SetLimit(int lim)
+void BefungeRunner2::SetLimit(int lim)
 {
 	stepLimit = lim;
 }
 
-void BefungeRunner0::RunSingle()
+void BefungeRunner2::RunSingle()
 {
 	ExecuteCommand(GRID(pcX, pcY));
 
@@ -76,60 +76,56 @@ void BefungeRunner0::RunSingle()
 	stepCounter++;
 }
 
-void BefungeRunner0::Set(int_grid x, int_grid y, int_grid chr)
+void BefungeRunner2::Set(int_grid x, int_grid y, int_grid chr)
 {
 	if (x < 0 || y < 0 || x >= width || y >= height)
-		return;
+		throw BFRunException("Modification Out Of Raster", pcX, pcY, RESULT_EC_INVALIDGRIDACC);
 
 	GRID(x, y) = chr;
 }
 
-int_grid BefungeRunner0::Get(int_grid x, int_grid y)
+int_grid BefungeRunner2::Get(int_grid x, int_grid y)
 {
 	if (x < 0 || y < 0 || x >= width || y >= height)
-		return 0;
+		throw BFRunException("Modification Out Of Raster", pcX, pcY, RESULT_EC_INVALIDGRIDACC);
 
 	return GRID(x, y);
 }
 
-void BefungeRunner0::Push(int_grid i)
+void BefungeRunner2::Push(int_grid i)
 {
 	stack.push_back(i);
 }
 
-int_grid BefungeRunner0::Pop()
+int_grid BefungeRunner2::Pop()
 {
 	if (stack.size() == 0)
-	{
-		return 0;
-	}
+		throw BFRunException("Popped an empty stack", pcX, pcY, RESULT_EC_INVALIDSTACKACC);
 
 	int_grid v = stack.back();
 	stack.pop_back();
 	return v;
 }
 
-int_grid BefungeRunner0::Peek()
+int_grid BefungeRunner2::Peek()
 {
 	if (stack.size() == 0)
-	{
-		return 0;
-	}
+		throw BFRunException("Popped an empty stack", pcX, pcY, RESULT_EC_INVALIDSTACKACC);
 
 	return stack.back();
 }
 
-bool BefungeRunner0::Pop_b()
+bool BefungeRunner2::Pop_b()
 {
 	return Pop() != 0;
 }
 
-void BefungeRunner0::Push_b(bool b)
+void BefungeRunner2::Push_b(bool b)
 {
 	Push(b ? 1 : 0);
 }
 
-int_grid BefungeRunner0::ReadIntFromStdIn()
+int_grid BefungeRunner2::ReadIntFromStdIn()
 {
 	std::string line;
 
@@ -143,12 +139,12 @@ int_grid BefungeRunner0::ReadIntFromStdIn()
 	}
 }
 
-int_grid BefungeRunner0::ReadCharFromStdIn()
+int_grid BefungeRunner2::ReadCharFromStdIn()
 {
 	return getchar();
 }
 
-void BefungeRunner0::ExecuteCommand(int_grid cmd)
+void BefungeRunner2::ExecuteCommand(int_grid cmd)
 {
 	if (stringmode)
 	{
@@ -303,17 +299,16 @@ void BefungeRunner0::ExecuteCommand(int_grid cmd)
 	case '9':
 		Push(cmd - '0');
 		break;
+	default:
+		throw BFRunException("Unknown Command: #" + std::to_string(cmd), pcX, pcY, RESULT_EC_INVALIDCOMMAND);
 	}
 }
 
-void BefungeRunner0::Move()
+void BefungeRunner2::Move()
 {
 	pcX += deltaX;
 	pcY += deltaY;
 
-	if (pcX < 0) pcX += width;
-	if (pcY < 0) pcY += height;
-
-	if (pcX >= width) pcX -= width;
-	if (pcY >= height) pcY -= height;
+	if (pcX < 0 || pcY < 0 || pcX >= width || pcY >= height)
+		throw BFRunException("Moved Out Of Raster", pcX, pcY, RESULT_EC_PCWRAPPING);
 }

@@ -10,7 +10,10 @@ public:
 	int exitCode;
 
 public:
-	BFRunException(const std::string msg, int ec) : err_msg(msg), exitCode(ec) {};
+	BFRunException(const std::string msg, int x, int y, int ec) : 
+		err_msg(msg + " at [" + std::to_string(x) + "|" + std::to_string(y) + "]"), 
+		exitCode(ec) {};
+
 	~BFRunException() throw() {};
 
 	const char *what() const throw() { return this->err_msg.c_str(); };
