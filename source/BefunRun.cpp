@@ -117,7 +117,7 @@ int execute(int argc, char* argv[])
 
 	IBefungeRunner *runner;
 
-	if (limit)
+	if (info)
 	{
 		runner = new BefungeRunnerInfo(width, height);
 	}

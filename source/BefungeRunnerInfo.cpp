@@ -73,17 +73,17 @@ void BefungeRunnerInfo::OutputInfo()
 	std::cout << "        max_stack_size = " << infoMaxStackSize                    << std::endl;
 	std::cout << "                 width = " << width                               << std::endl;
 	std::cout << "                height = " << height                              << std::endl;
-	std::cout << "               runtime = " << stepCounter                         << std::endl;
+	std::cout << "                 steps = " << stepCounter                         << std::endl;
 	std::cout << "           write_count = " << infoGridWriteAccess                 << std::endl;
 	std::cout << "            read_count = " << infoGridReadAccess                  << std::endl;
-	std::cout << "    edited_cells_count = " << CountDirty()                        << std::endl;
-	std::cout << "  executed_cells_count = " << CountVisited()                      << std::endl;
+	std::cout << "          edited_cells = " << CountDirty()                        << std::endl;
+	std::cout << "        executed_cells = " << CountVisited()                      << std::endl;
 	std::cout << "             value_min = " << infoMinValue                        << std::endl;
 	std::cout << "             value_max = " << infoMaxValue                        << std::endl;
-	std::cout << "           needs_int64 = " << (needsInt64 ? "true" : "false")     << std::endl;
-	std::cout << "                random = " << (infoIsrandom ? "true" : "false")   << std::endl;
-	std::cout << "      selfmodification = " << (infoSelModExec ? "true" : "false") << std::endl;
-	std::cout << "     execution_time_ms = " << elapsed_ms                          << std::endl;
+	std::cout << "           needs_int64 = " << (needsInt64     ? "true" : "false") << std::endl;
+	std::cout << "                random = " << (infoIsrandom   ? "true" : "false") << std::endl;
+	std::cout << "               selfmod = " << (infoSelModExec ? "true" : "false") << std::endl;
+	std::cout << "             exec_time = " << elapsed_ms                          << std::endl;
 }
 
 int BefungeRunnerInfo::CountVisited()
@@ -123,7 +123,7 @@ void BefungeRunnerInfo::RunSingle()
 
 	Move();
 
-	stepCounter++;
+	if (GRID(pcX, pcY) != ' ')stepCounter++;
 }
 
 void BefungeRunnerInfo::Set(int_grid x, int_grid y, int_grid chr)
@@ -321,10 +321,10 @@ void BefungeRunnerInfo::ExecuteCommand(int_grid cmd)
 		Pop();
 		break;
 	case '.':
-		//std::cout << (int_grid)Pop();
+		Pop();
 		break;
 	case ',':
-		//std::cout << (char)Pop();
+		Pop();
 		break;
 	case '#':
 		Move();
@@ -364,6 +364,9 @@ void BefungeRunnerInfo::ExecuteCommand(int_grid cmd)
 	case '9':
 		Push(cmd - '0');
 		break;
+	default:
+		Push(0);
+			break;
 	}
 }
 
