@@ -87,11 +87,20 @@ int execute(int argc, char* argv[])
 		}
 
 		std::string str;
+		bool first = true;
 		while (std::getline(file, str))
 		{
+			// UTF-8 BOM
+			if (first && str.length() >= 3 && (uint8_t)str.at(0) == 0xEF && (uint8_t)str.at(1) == 0xBB && (uint8_t)str.at(2) == 0xBF)
+			{
+				str = str.substr(3);
+			}
+
 			lines.push_back(str);
 			width = std::max(width, (int)str.length());
 			height++;
+
+			first = false;
 		}
 	}
 	catch (const std::exception& ex)
