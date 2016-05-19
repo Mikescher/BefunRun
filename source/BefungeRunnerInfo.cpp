@@ -2,6 +2,7 @@
 #include "BefungeRunnerInfo.h"
 #include "BFRunException.h"
 #include "HelperMethods.h"
+#include "format.h"
 
 
 BefungeRunnerInfo::BefungeRunnerInfo(int w, int h)
@@ -67,23 +68,56 @@ void BefungeRunnerInfo::Run()
 
 void BefungeRunnerInfo::OutputInfo()
 {
-	int elapsed_ms = (int)((double((clock() - infoStartTime)) * 1000) / CLOCKS_PER_SEC);
+	double felapsed_ms = ((double((clock() - infoStartTime)) * 1000) / CLOCKS_PER_SEC);
+	int elapsed_ms = (int)felapsed_ms;
 	bool needsInt64 = (infoMinValue < std::numeric_limits<int>::min()) || (infoMinValue > std::numeric_limits<int>::max());
 
-	std::cout << "        max_stack_size = " << infoMaxStackSize                    << std::endl;
-	std::cout << "                 width = " << width                               << std::endl;
-	std::cout << "                height = " << height                              << std::endl;
-	std::cout << "                 steps = " << stepCounter                         << std::endl;
-	std::cout << "           write_count = " << infoGridWriteAccess                 << std::endl;
-	std::cout << "            read_count = " << infoGridReadAccess                  << std::endl;
-	std::cout << "          edited_cells = " << CountDirty()                        << std::endl;
-	std::cout << "        executed_cells = " << CountVisited()                      << std::endl;
-	std::cout << "             value_min = " << infoMinValue                        << std::endl;
-	std::cout << "             value_max = " << infoMaxValue                        << std::endl;
-	std::cout << "           needs_int64 = " << (needsInt64     ? "true" : "false") << std::endl;
-	std::cout << "                random = " << (infoIsrandom   ? "true" : "false") << std::endl;
-	std::cout << "               selfmod = " << (infoSelModExec ? "true" : "false") << std::endl;
-	std::cout << "             exec_time = " << elapsed_ms                          << std::endl;
+	std::cout << "        max_stack_size = " << infoMaxStackSize                           << std::endl;
+	std::cout << "                 width = " << width                                      << std::endl;
+	std::cout << "                height = " << height                                     << std::endl;
+	std::cout << "                 steps = " << stepCounter                                << std::endl;
+	std::cout << "           write_count = " << infoGridWriteAccess                        << std::endl;
+	std::cout << "            read_count = " << infoGridReadAccess                         << std::endl;
+	std::cout << "          edited_cells = " << CountDirty()                               << std::endl;
+	std::cout << "        executed_cells = " << CountVisited()                             << std::endl;
+	std::cout << "             value_min = " << infoMinValue                               << std::endl;
+	std::cout << "             value_max = " << infoMaxValue                               << std::endl;
+	std::cout << "           needs_int64 = " << (needsInt64     ? "true" : "false")        << std::endl;
+	std::cout << "                random = " << (infoIsrandom   ? "true" : "false")        << std::endl;
+	std::cout << "               selfmod = " << (infoSelModExec ? "true" : "false")        << std::endl;
+	std::cout << "             exec_time = " << elapsed_ms                                 << std::endl;
+	std::cout << "             frequency = " << FormatFrequency(stepCounter / felapsed_ms) << std::endl;
+}
+
+std::string BefungeRunnerInfo::FormatFrequency(double freq)
+{
+	freq *= 1000;
+
+	if (isnan(freq)) return "NaN";
+	if (isinf(freq) && freq > 0) return "INF";
+	if (isinf(freq) && freq < 0) return "ERR";
+
+	std::string pref = "";
+
+	if (freq > 1000)
+	{
+		freq /= 1000;
+		pref = "k";
+
+		if (freq > 1000)
+		{
+			freq /= 1000;
+			pref = "M";
+
+			if (freq > 1000)
+			{
+				freq /= 1000;
+				pref = "G";
+			}
+		}
+	}
+
+	return fmt::format("{0:.2f} {1}Hz", freq, pref);
 }
 
 int BefungeRunnerInfo::CountVisited()

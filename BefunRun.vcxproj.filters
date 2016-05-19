@@ -48,6 +48,9 @@
     <ClInclude Include="source\BefungeRunnerInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\format.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\BefunRun.cpp">
@@ -72,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\BefungeRunnerInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\format.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

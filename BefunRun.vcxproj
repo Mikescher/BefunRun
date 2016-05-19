@@ -151,6 +151,7 @@
     <ClInclude Include="source\BefungeRunner3.h" />
     <ClInclude Include="source\BefungeRunnerInfo.h" />
     <ClInclude Include="source\BFRunException.h" />
+    <ClInclude Include="source\format.h" />
     <ClInclude Include="source\HelperMethods.h" />
     <ClInclude Include="source\IBefungeRunner.h" />
     <ClInclude Include="source\stdafx.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="source\BefungeRunner3.cpp" />
     <ClCompile Include="source\BefungeRunnerInfo.cpp" />
     <ClCompile Include="source\BefunRun.cpp" />
+    <ClCompile Include="source\format.cpp" />
     <ClCompile Include="source\HelperMethods.cpp" />
     <ClCompile Include="source\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

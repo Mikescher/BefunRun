@@ -50,6 +50,7 @@ private:
 	void OutputInfo();
 	int CountVisited();
 	int CountDirty();
+	std::string FormatFrequency(double freq);
 
 public:
 	BefungeRunnerInfo(int w, int h);

@@ -35,6 +35,8 @@ int main(int argc, char* argv[])
 
 		return RESULT_EC_UNKNOWNEXCEPTION;
 	}
+
+	std::getchar();
 }
 
 int execute(int argc, char* argv[])
