@@ -201,6 +201,7 @@ void showHelp()
 	std::cout << "                     - reading from empty stack                                " << std::endl;
 	std::cout << "                     - reading/writing invalid coordinates                     " << std::endl;
 	std::cout << "                     - executing an invalid command character                  " << std::endl;
+	std::cout << "                     - dividing (with div or mod operator) by zero             " << std::endl;
 	std::cout << "   - errorlevel=2 : Abort on previous conditions and when:                     " << std::endl;
 	std::cout << "                     - moving PC over the program edge                         " << std::endl;
 	std::cout << "   - errorlevel=3 : Abort on previous conditions and when:                     " << std::endl;

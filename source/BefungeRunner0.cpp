@@ -188,11 +188,17 @@ void BefungeRunner0::ExecuteCommand(int_grid cmd)
 		break;
 	case '/':
 		t1 = Pop();
-		Push(Pop() / t1);
+		if (t1 == 0)
+			Push(Pop() * 0);
+		else
+			Push(Pop() / t1);
 		break;
 	case '%':
 		t1 = Pop();
-		Push(Pop() % t1);
+		if (t1 == 0)
+			Push(Pop() * 0);
+		else
+			Push(Pop() % t1);
 		break;
 	case '!':
 		Push_b(!Pop_b());

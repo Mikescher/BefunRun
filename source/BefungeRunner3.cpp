@@ -192,10 +192,14 @@ void BefungeRunner3::ExecuteCommand(int_grid cmd)
 		break;
 	case '/':
 		t1 = Pop();
+		if (t1 == 0)
+			throw BFRunException("Divided by zero", pcX, pcY, RESULT_EC_DIVBYZERO);
 		Push(Pop() / t1);
 		break;
 	case '%':
 		t1 = Pop();
+		if (t1 == 0)
+			throw BFRunException("Divided by zero", pcX, pcY, RESULT_EC_DIVBYZERO);
 		Push(Pop() % t1);
 		break;
 	case '!':
