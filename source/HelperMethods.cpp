@@ -82,7 +82,7 @@ bool getIntArg(int &target, const std::string argument, const std::string argnam
 	if (hasBeginning(argument, argname + "="))
 	{
 		int argInt;
-		if (str2int(argInt, argument.substr(0 + argname.length() + 1)))
+		if (str2int(argInt, argument.substr(0 + argname.length() + 1)) == S2IE_SUCCESS)
 		{
 			target = argInt;
 			return true;
@@ -91,7 +91,7 @@ bool getIntArg(int &target, const std::string argument, const std::string argnam
 	else if (hasBeginning(argument, "-" + argname + "="))
 	{
 		int argInt;
-		if (str2int(argInt, argument.substr(1 + argname.length() + 1)))
+		if (str2int(argInt, argument.substr(1 + argname.length() + 1)) == S2IE_SUCCESS)
 		{
 			target = argInt;
 			return true;
@@ -100,7 +100,7 @@ bool getIntArg(int &target, const std::string argument, const std::string argnam
 	else if (hasBeginning(argument, "--" + argname + "="))
 	{
 		int argInt;
-		if (str2int(argInt, argument.substr(2 + argname.length() + 1)))
+		if (str2int(argInt, argument.substr(2 + argname.length() + 1)) == S2IE_SUCCESS)
 		{
 			target = argInt;
 			return true;
