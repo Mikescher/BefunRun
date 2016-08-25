@@ -89,7 +89,7 @@ void BefungeRunner3::Set(int_grid x, int_grid y, int_grid chr)
 	if (x < 0 || y < 0 || x >= width || y >= height)
 		throw BFRunException("Modification Out Of Raster", pcX, pcY, RESULT_EC_INVALIDGRIDACC);
 
-	DCACHE(pcX, pcY) = true;
+	DCACHE(x, y) = true;
 
 	GRID(x, y) = chr;
 }
