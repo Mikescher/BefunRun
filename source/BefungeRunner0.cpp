@@ -268,7 +268,7 @@ void BefungeRunner0::ExecuteCommand(int_grid cmd)
 		Pop();
 		break;
 	case '.':
-		std::cout << (int_grid)Pop();
+		std::cout << (int_grid)Pop() << ' ';
 		break;
 	case ',':
 		std::cout << (char)Pop();
