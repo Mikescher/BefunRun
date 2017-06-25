@@ -2,7 +2,7 @@
 #include "BefungeRunnerInfo.h"
 #include "BFRunException.h"
 #include "HelperMethods.h"
-#include "format.h"
+#include "external/format.h"
 
 
 BefungeRunnerInfo::BefungeRunnerInfo(int w, int h)

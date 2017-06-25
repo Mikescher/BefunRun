@@ -48,7 +48,7 @@
     <ClInclude Include="source\BefungeRunnerInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\format.h">
+    <ClInclude Include="source\external\format.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -77,7 +77,7 @@
     <ClCompile Include="source\BefungeRunnerInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\format.cpp">
+    <ClCompile Include="source\external\format.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

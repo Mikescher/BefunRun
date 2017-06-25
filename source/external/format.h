@@ -28,7 +28,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef FMT_FORMAT_H_
 #define FMT_FORMAT_H_
 
-#include "s"
+//#include "stdafx.h"
 
 #include <cassert>
 #include <clocale>
